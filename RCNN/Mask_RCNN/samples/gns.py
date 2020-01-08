@@ -22,15 +22,17 @@ import json
 import datetime
 import numpy as np
 import skimage.draw
-
-
 from keras import backend as K
 import keras
-import tensorflow as tf
+import sys
+
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+
 from keras.backend.tensorflow_backend import set_session
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True #allows dynamic growth
-config.gpu_options.visible_device_list = "2" #set GPU number
+config.gpu_options.visible_device_list = "0" #set GPU number
 set_session(tf.Session(config=config))
 
 
@@ -59,10 +61,14 @@ class gnsConfig(Config):
     Derives from the base Config class and overrides some values.
     """
     # Give the configuration a recognizable name
-    NAME = "gns"
+    NAME = "gns"#
+
+    #Trying to fit it all on an 8GB GPU
+    BACKBONE = "resnet101"
+
 # We use a GPU with 16GB memory, which can fit three image.
     # Adjust down if you use a smaller GPU.
-    IMAGES_PER_GPU = 3
+    IMAGES_PER_GPU = 1
 # Number of classes (including background)
     NUM_CLASSES = 1 + 2  # Background + sword + gun
 # Number of training steps per epoch
@@ -184,6 +190,8 @@ class gnsDataset(utils.Dataset):
         else:
             super(self.__class__, self).image_reference(image_id)
 
+
+
 def train(model):
     """Train the model."""
     # Training dataset.
@@ -201,10 +209,19 @@ def train(model):
     # COCO trained weights, we don't need to train too long. Also,
     # no need to train all layers, just the heads should do it.
     print("Training network heads")
+
+
+    #oldStdout = sys.stdout
+    #file = open('logFile', 'w')
+    #sys.stdout = file
+    
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
                 epochs=60,
                 layers='heads')
+
+    #sys.stdout = oldStdout
+    #file.close()
 
 
 def color_splash(image, mask):

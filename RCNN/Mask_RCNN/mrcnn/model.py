@@ -2343,6 +2343,9 @@ class MaskRCNN():
                                             verbose=0, save_weights_only=True),
         ]
 
+        custom_callbacks= [
+            keras.callbacks.CSVLogger("training"+ ".log")]
+
         # Add custom callbacks to the list
         if custom_callbacks:
             callbacks += custom_callbacks
