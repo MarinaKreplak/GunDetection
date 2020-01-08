@@ -9,7 +9,7 @@ To run the code in this repo:
 git clone https://github.com/MarinaKreplak/GunDetection.git
 ```
 
-2. Download Mask_RCNN model from this link:
+2. Download Mask_RCNN model from this link and locate it at Mask_RCNN/logs/gns20200104T2011:
 
 ```
 https://drive.google.com/open?id=1WeAoqXetgOkTeAlzao0_tRtJynf1jip8
