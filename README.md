@@ -12,7 +12,7 @@ git clone https://github.com/MarinaKreplak/GunDetection.git
 2. Download Mask_RCNN model from this link:
 
 ```
-link
+https://drive.google.com/open?id=1WeAoqXetgOkTeAlzao0_tRtJynf1jip8
 ```
 
 3. Install all dependencies from requirements.txt
